@@ -34,6 +34,11 @@ def index(request):
         print (Task.objects.filter(id=id_to_complete))
         Task.objects.filter(id=id_to_complete).delete()
 
+    if request.POST.get("undo_complete"):
+        id_to_complete = (request.POST['task_id'])
+        print (id_to_complete)
+        # complete_task(id_to_complete)
+        Task.objects.filter(id=id_to_complete).update(completed = False)
     
     # if request.POST.get("edit_task"):
     #     id_to_edit = (request.POST['task_id'])
