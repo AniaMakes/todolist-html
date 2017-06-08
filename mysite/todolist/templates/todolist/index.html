@@ -1,0 +1,85 @@
+<h1>Hello, world. Welcome to the ultimate to-do list.</h1>
+<br />
+
+<form action="#" method="post">
+	{% csrf_token %}
+	<input name="text_field" type="text" max=200>
+	<br />
+	<input id="submit" type="submit" value="submit" name="submit_task" />
+</form>
+
+<form action="#" method="post">
+	{% csrf_token %}
+	<input name="text_field" type="text" max=200>
+	<br />
+	<input id="submit" type="submit" value="search" name="search_tasks" />
+</form>
+
+<!-- <form action="#" method="post">
+	{% csrf_token %}
+	<input name="text_field" type="text" max=200>
+	<br><input id="submit" type="submit" value="hidden" name="update_task" /></li>
+</form>
+ -->
+
+<hr />
+
+<h1> Pending </h1>
+
+{% if waiting %}
+	<table style="width:auto">
+		{% for task in waiting %}
+			<tr>
+				<td text-align="center">
+					<form action="#" method="post" style="display: inline">
+						{% csrf_token %}
+						<input id="complete" type="submit" value="done!" name="complete_task" /></li>
+						<input name="task_id" type="hidden" value="{{task.id}}">
+					</form>
+				</td>
+				<!-- <td text-align="center">
+
+					<form action="#" method="post" style="display: inline">
+						{% csrf_token %}
+						<input id="complete" type="submit" value="edit" name="edit_task" /></li>
+						<input name="task_id" type="hidden" value="{{task.id}}">
+					</form>
+				</td> -->
+				<td text-align="left">
+					{{ task.task_text}}
+				</td>
+			</tr>
+
+			<br />
+		{% endfor %}
+	</table>
+
+{% else %}
+
+	<p>No current tasks exist.</p>
+
+{% endif %}
+
+<hr />
+<h1> Completed </h1>
+
+<table style="width:auto">
+	{% for task in done %}
+		<tr>
+			<td text-align="center">
+				<form action="#" method="post" style="display: inline">
+					{% csrf_token %}
+					<input id="complete" type="submit" value="purge" name="delete_submission" /></li>
+					<input name="task_id" type="hidden" value="{{task.id}}">
+				</form>
+			</td>
+			<td text-align="left">
+				{{ task.task_text}}
+			</td>
+		</tr>
+
+		<br />
+	{% endfor %}
+</table>
+
+
