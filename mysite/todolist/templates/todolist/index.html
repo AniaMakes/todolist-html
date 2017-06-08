@@ -3,7 +3,7 @@
 
 <form action="#" method="post">
 	{% csrf_token %}
-	<input name="text_field" type="text" max=200>
+	<input name="text_field" type="text" max=200 autofocus>
 	<br />
 	<input id="submit" type="submit" value="submit" name="submit_task" />
 </form>
@@ -49,8 +49,6 @@
 					{{ task.task_text}}
 				</td>
 			</tr>
-
-			<br />
 		{% endfor %}
 	</table>
 
@@ -77,8 +75,6 @@
 				{{ task.task_text}}
 			</td>
 		</tr>
-
-		<br />
 	{% endfor %}
 </table>
 

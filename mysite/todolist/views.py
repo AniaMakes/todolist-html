@@ -48,7 +48,8 @@ def index(request):
         if content != "":  
             print (content)            
             print (Task.objects.filter(task_text__icontains=content))
-            todo_list = todo_list.filter(task_text__icontains=content)
+            waiting = todo_list.filter(task_text__icontains=content)
+            done = todo_list.filter(task_text__icontains=content, completed=True)
     
     context = {
         'waiting': waiting,
