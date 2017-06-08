@@ -34,7 +34,6 @@ def index(request):
         print (Task.objects.filter(id=id_to_complete))
         Task.objects.filter(id=id_to_complete).delete()
 
-# bonus comment to try git
     
     # if request.POST.get("edit_task"):
     #     id_to_edit = (request.POST['task_id'])
