@@ -21,16 +21,39 @@
 	<input id="submit" type="submit" value="search" name="search_tasks" />
 </form>
 <div>
-<!-- <form action="#" method="post">
-	{% csrf_token %}
-	<input name="text_field" type="text" max=200>
-	<br><input id="submit" type="submit" value="hidden" name="update_task" /></li>
-</form>
- -->
 
 <hr />
 
 <h1> Pending </h1> {% if waiting_todos %}
+
+	<!-- <td text-align="center">
+		<form action="#" method="post" style="display: inline">
+			{% csrf_token %}
+			<input id="complete" type="submit" value="done!" name="complete_task_{{task.id}}" disabled/>				
+		</form>
+	</td>
+	<td text-align="center">
+		<form action="#" method="post" style="display: inline">
+			{% csrf_token %}
+			<input id="complete" type="submit" value="edit" name="edit_task_{{task.id}}" disabled />
+		</form>
+	</td>
+	<td text-align="left">
+		{{ task.task_text}}
+	</td>
+	<td text-align="center">
+		<form action="#" method="post" style="display: inline">
+			{% csrf_token %}
+			<input id="complete" type="submit" value="save" name="save_task_{{task.id}}" disabled />
+		</form>
+	</td>
+	<td text-align="center">
+		<form action="#" method="post" style="display: inline">
+			{% csrf_token %}
+			<input id="complete" type="submit" value="cancel" name="cancel_task_{{task.id}}" disabled />
+		</form>
+	</td> -->
+
 <table class="center">
 	{% for task in waiting_todos %}
 	<tr>
@@ -40,14 +63,12 @@
 				<input id="complete" type="submit" value="done!" name="complete_task_{{task.id}}" />				
 			</form>
 		</td>
-		<!-- <td text-align="center">
-
-					<form action="#" method="post" style="display: inline">
-						{% csrf_token %}
-						<input id="complete" type="submit" value="edit" name="edit_task" /></li>
-						<input name="task_id" type="hidden" value="{{task.id}}">
-					</form>
-				</td> -->
+		<td text-align="center">
+			<form action="#" method="post" style="display: inline">
+				{% csrf_token %}
+				<input id="complete" type="submit" value="edit" name="edit_task_{{task.id}}" />
+			</form>
+		</td>
 		<td text-align="left">
 			{{ task.task_text}}
 		</td>

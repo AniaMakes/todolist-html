@@ -21,12 +21,14 @@ def index(request):
     waiting_todos = todo_list.filter(completed=False)
     tasks_done = todo_list.filter(completed=True)
     past_search_term = ""
+    task_to_be_edited_text = ""
 
     for item_name in request.POST:
         item_value = request.POST[item_name]
         complete_prefix = 'complete_task_'
         delete_prefix = "delete_submission_"
         undo_prefix = "undo_complete_"
+        edit_prefix = "edit_task_"
         
         if (item_name.startswith(complete_prefix)):
             task_id_str = item_name[len(complete_prefix):]
@@ -63,6 +65,14 @@ def index(request):
                 tasks_done = todo_list.filter(
                     task_text__icontains=content, completed=True)
 
+        if (item_name.startswith(edit_prefix)):
+            task_id_str = item_name[len(edit_prefix):]
+            id_to_undo = int(task_id_str)
+            task_to_edit_part1 = Task.objects.filter(id=id_to_undo)[0]
+            task_to_be_edited_text = task_to_edit_part1.task_text
+
+            # use the ID to fetch 
+
     # if request.POST.get("edit_task"):
     #     id_to_edit = (request.POST['task_id'])
     #     content = (request.POST['text_field'])
@@ -74,6 +84,7 @@ def index(request):
         'waiting_todos': waiting_todos,
         'tasks_done': tasks_done,
         'past_search_term': past_search_term,
+        'task_to_be_edited_text': task_to_be_edited_text,
     }
 
     # print  (context)
