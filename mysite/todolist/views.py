@@ -29,6 +29,8 @@ def index(request):
         delete_prefix = "delete_submission_"
         undo_prefix = "undo_complete_"
         edit_prefix = "edit_task_"
+        save_prefix = "save_task_"
+        cancel_prefix = "cancel_task_"
         
         if (item_name.startswith(complete_prefix)):
             task_id_str = item_name[len(complete_prefix):]
@@ -47,15 +49,22 @@ def index(request):
             id_to_undo = int(task_id_str)
             print (id_to_undo)
             Task.objects.filter(id=id_to_undo).update(completed = False)
+            
+        if (item_name.startswith(save_prefix)):
+            task_id_str = item_name[len(save_prefix):]
+            id_to_save = int(task_id_str)
+            print (id_to_save)
+            content = (request.POST['text_field_edit'])
+            Task.objects.filter(id=id_to_save).update(task_text = content)                    
 
         if (item_name.startswith("submit_task")):
-            content = (request.POST['text_field'])
+            content = (request.POST['text_field_entry'])
             if content != "":
                 if not Task.objects.filter(task_text=content).exists():
                     save_submission(content)
 
         if (item_name.startswith("search_tasks")):
-            content = (request.POST['text_field'])
+            content = (request.POST['text_field_search'])
             past_search_term = content
             if content != "":
                 print(content)
@@ -71,14 +80,7 @@ def index(request):
             task_to_edit_part1 = Task.objects.filter(id=id_to_undo)[0]
             task_to_be_edited_text = task_to_edit_part1.task_text
 
-            # use the ID to fetch 
 
-    # if request.POST.get("edit_task"):
-    #     id_to_edit = (request.POST['task_id'])
-    #     content = (request.POST['text_field'])
-    #     print (id_to_edit)
-    #     print (content)
-    #     edit_submissions(id_to_edit)
 
     context = {
         'waiting_todos': waiting_todos,
