@@ -37,8 +37,7 @@
 		<td text-align="center">
 			<form action="#" method="post" style="display: inline">
 				{% csrf_token %}
-				<input id="complete" type="submit" value="done!" name="complete_task" /></li>
-				<input name="task_id" type="hidden" value="{{task.id}}">
+				<input id="complete" type="submit" value="done!" name="complete_task_{{task.id}}" />				
 			</form>
 		</td>
 		<!-- <td text-align="center">
@@ -73,15 +72,13 @@
 			<td text-align="center">
 				<form action="#" method="post" style="display: inline">
 					{% csrf_token %}
-					<input id="complete" type="submit" value="purge" name="delete_submission" /></li>
-					<input name="task_id" type="hidden" value="{{task.id}}">
+					<input id="complete" type="submit" value="purge" name="delete_submission_{{task.id}}" />
 				</form>
 			</td>
 				<td text-align="center">
 					<form action="#" method="post" style="display: inline">
 						{% csrf_token %}
-						<input id="complete" type="submit" value="undo" name="undo_complete" /></li>
-						<input name="task_id" type="hidden" value="{{task.id}}">
+						<input id="complete" type="submit" value="undo" name="undo_complete_{{task.id}}" />
 					</form>
 			</td>					
 			

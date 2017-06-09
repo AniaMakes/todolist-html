@@ -5,16 +5,46 @@ from django.template import loader
 from django.urls import reverse
 
 from .models import Task
-from .submit import  save_submission, edit_submission, complete_task
-
+from .submit import complete_task, edit_submission, save_submission
 
 
 def index(request):
+    # type of request: https://docs.djangoproject.com/en/1.11/ref/request-response/#httprequest-objects
+
+    # type of request.POST: https://docs.python.org/3.5/library/stdtypes.html#dict
+
+    # values in request.POST are of type str
     print(request.POST)
+    print(type(request.POST))
+    
     todo_list = Task.objects.all()
     waiting_todos = todo_list.filter(completed=False)
     tasks_done = todo_list.filter(completed=True)
     past_search_term = ""
+
+    for item_name in request.POST:
+        item_value = request.POST[item_name]
+        complete_prefix = 'complete_task_'
+        delete_prefix = "delete_submission_"
+        undo_prefix = "undo_complete_"
+        
+        if (item_name.startswith(complete_prefix)):
+            task_id_str = item_name[len(complete_prefix):]
+            id_to_complete = int(task_id_str)
+            print (id_to_complete)
+            Task.objects.filter(id=id_to_complete).update(completed = True)
+
+        if (item_name.startswith(delete_prefix)):
+            task_id_str = item_name[len(delete_prefix):]
+            id_to_delete = int(task_id_str)
+            print (id_to_delete)
+            Task.objects.filter(id=id_to_delete).delete()
+
+        if (item_name.startswith(undo_prefix)):
+            task_id_str = item_name[len(undo_prefix):]
+            id_to_undo = int(task_id_str)
+            print (id_to_undo)
+            Task.objects.filter(id=id_to_undo).update(completed = False)
 
     if request.POST.get("submit_task"):
         content = (request.POST['text_field'])
@@ -22,48 +52,31 @@ def index(request):
             if not Task.objects.filter(task_text=content).exists():
                 save_submission(content)
 
-    if request.POST.get("complete_task"):
-        id_to_complete = (request.POST['task_id'])
-        print (id_to_complete)
-        # complete_task(id_to_complete)
-        Task.objects.filter(id=id_to_complete).update(completed = True)
-    
-    if request.POST.get("delete_submission"):
-        id_to_complete = (request.POST['task_id'])
-        print (id_to_complete)
-        print (Task.objects.filter(id=id_to_complete))
-        Task.objects.filter(id=id_to_complete).delete()
-
-    if request.POST.get("undo_complete"):
-        id_to_complete = (request.POST['task_id'])
-        print (id_to_complete)
-        # complete_task(id_to_complete)
-        Task.objects.filter(id=id_to_complete).update(completed = False)
-    
     # if request.POST.get("edit_task"):
     #     id_to_edit = (request.POST['task_id'])
     #     content = (request.POST['text_field'])
     #     print (id_to_edit)
-    #     print (content)        
+    #     print (content)
     #     edit_submissions(id_to_edit)
-          
+
     if request.POST.get("search_tasks"):
         content = (request.POST['text_field'])
         past_search_term = content
 
-        if content != "":  
-            print (content)            
-            print (Task.objects.filter(task_text__icontains=content))
-            waiting_todos = todo_list.filter(task_text__icontains=content, completed=False)
-            tasks_done = todo_list.filter(task_text__icontains=content, completed=True)
-    
+        if content != "":
+            print(content)
+            print(Task.objects.filter(task_text__icontains=content))
+            waiting_todos = todo_list.filter(
+                task_text__icontains=content, completed=False)
+            tasks_done = todo_list.filter(
+                task_text__icontains=content, completed=True)
+
     context = {
         'waiting_todos': waiting_todos,
-        'tasks_done' : tasks_done, 
-        'past_search_term' : past_search_term,
+        'tasks_done': tasks_done,
+        'past_search_term': past_search_term,
     }
-    
-    print  (context)
-    
-    return render(request, 'todolist/index.html', context)
 
+    # print  (context)
+
+    return render(request, 'todolist/index.html', context)
