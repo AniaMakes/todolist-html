@@ -1,0 +1,40 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: DarkBlue;
+    text-align: center;
+}
+
+p {
+    font-family: verdana;
+    font-size: 20px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2}
+
+td{
+    padding: 2px;
+}
+
+input[type=text] {
+    background-color: PeachPuff;    
+}
+
+input[type=text]:focus {
+    background-color: SandyBrown;
+}
+
+table {
+    border: 5px solid black; 
+    border-radius: 15px 50px;
+    padding: 15px
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center; 
+}
+
