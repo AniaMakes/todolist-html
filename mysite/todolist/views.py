@@ -46,11 +46,22 @@ def index(request):
             print (id_to_undo)
             Task.objects.filter(id=id_to_undo).update(completed = False)
 
-    if request.POST.get("submit_task"):
-        content = (request.POST['text_field'])
-        if content != "":
-            if not Task.objects.filter(task_text=content).exists():
-                save_submission(content)
+        if (item_name.startswith("submit_task")):
+            content = (request.POST['text_field'])
+            if content != "":
+                if not Task.objects.filter(task_text=content).exists():
+                    save_submission(content)
+
+        if (item_name.startswith("search_tasks")):
+            content = (request.POST['text_field'])
+            past_search_term = content
+            if content != "":
+                print(content)
+                print(Task.objects.filter(task_text__icontains=content))
+                waiting_todos = todo_list.filter(
+                    task_text__icontains=content, completed=False)
+                tasks_done = todo_list.filter(
+                    task_text__icontains=content, completed=True)
 
     # if request.POST.get("edit_task"):
     #     id_to_edit = (request.POST['task_id'])
@@ -58,18 +69,6 @@ def index(request):
     #     print (id_to_edit)
     #     print (content)
     #     edit_submissions(id_to_edit)
-
-    if request.POST.get("search_tasks"):
-        content = (request.POST['text_field'])
-        past_search_term = content
-
-        if content != "":
-            print(content)
-            print(Task.objects.filter(task_text__icontains=content))
-            waiting_todos = todo_list.filter(
-                task_text__icontains=content, completed=False)
-            tasks_done = todo_list.filter(
-                task_text__icontains=content, completed=True)
 
     context = {
         'waiting_todos': waiting_todos,
