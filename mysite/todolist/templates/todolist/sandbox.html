@@ -9,15 +9,17 @@
 <div class="center">
 <form action="#" method="post" class="center">
 	{% csrf_token %}
-	
 	<input name="text_field_entry" type="text" max=200 autofocus>
 	<br />
 	<input id="submit" type="submit" value="submit" name="submit_task" />
-	<p />
-	<input name="text_field_search" type="text" max=200 placeholder="{{ past_search_term }}"/>
+</form>
+
+<form action="#" method="post" class="center">
+	{% csrf_token %}
+	<input name="text_field_search" type="text" max=200 placeholder="{{ past_search_term }}">
 	<br />
 	<input id="submit" type="submit" value="search" name="search_tasks" />
-
+</form>
 <div>
 
 <hr />
@@ -29,27 +31,48 @@
 	{% for task in waiting_todos %}
 	 	{% if task_to_be_edited_text == task.task_text %}
 			<td text-align="center">
+				<form action="#" method="post" style="display: inline">
+					{% csrf_token %}
 					<input id="complete" type="submit" value="done!" name="complete_task_{{task.id}}" disabled/>				
+				</form>
 			</td>
 			<td text-align="center">
+				<form action="#" method="post" style="display: inline">
+					{% csrf_token %}
 					<input id="complete" type="submit" value="edit" name="edit_task_{{task.id}}" disabled />
+				</form>
 			</td>
 			<td text-align="left">
-					<input name="text_field_edit" type="text" max=200 value="{{task_to_be_edited_text}}">
+				<form action="#" method="post" class="center">
+					<!-- {% csrf_token %} -->
+					<input name="text_field_edit" type="text" max=200 value="{{task_to_be_edited_text}}" autofocus>
+				<!-- </form> -->
 			</td>
 			<td text-align="center">
+				<!-- <form action="#" method="post" style="display: inline"> -->
+					{% csrf_token %}
 					<input id="submit" type="submit" value="save" name="save_task_{{task.id}}" />
+				</form>
 			</td>
 			<td text-align="center">
+				<form action="#" method="post" style="display: inline">
+					{% csrf_token %}
 					<input id="complete" type="submit" value="cancel" name="cancel_task_{{task.id}}" />
+				</form>
 			</td>
 		{% else %}
 			<tr>
 				<td text-align="center">
+					<form action="#" method="post" style="display: inline">
+						{% csrf_token %}
 						<input id="complete" type="submit" value="done!" name="complete_task_{{task.id}}" />				
+					</form>
 				</td>
 				<td text-align="center">
+					<form action="#" method="post" style="display: inline">
+						{% csrf_token %}
 						<input id="complete" type="submit" value="edit" name="edit_task_{{task.id}}" />
+					</form>
 				</td>
 				<td text-align="left">
 					{{ task.task_text}}
@@ -74,10 +97,16 @@
 		{% for task in tasks_done %}
 		<tr>
 			<td text-align="center">
+				<form action="#" method="post" style="display: inline">
+					{% csrf_token %}
 					<input id="complete" type="submit" value="purge" name="delete_submission_{{task.id}}" />
+				</form>
 			</td>
 				<td text-align="center">
+					<form action="#" method="post" style="display: inline">
+						{% csrf_token %}
 						<input id="complete" type="submit" value="undo" name="undo_complete_{{task.id}}" />
+					</form>
 			</td>					
 			
 			<td text-align="left">

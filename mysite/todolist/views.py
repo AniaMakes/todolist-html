@@ -55,7 +55,8 @@ def index(request):
             id_to_save = int(task_id_str)
             print (id_to_save)
             content = (request.POST['text_field_edit'])
-            Task.objects.filter(id=id_to_save).update(task_text = content)                    
+            if content != "":
+                Task.objects.filter(id=id_to_save).update(task_text = content)                    
 
         if (item_name.startswith("submit_task")):
             content = (request.POST['text_field_entry'])
@@ -83,8 +84,8 @@ def index(request):
 
 
     context = {
-        'waiting_todos': waiting_todos,
-        'tasks_done': tasks_done,
+        'waiting_todos': waiting_todos.order_by("id"),
+        'tasks_done': tasks_done.order_by("id"),
         'past_search_term': past_search_term,
         'task_to_be_edited_text': task_to_be_edited_text,
     }
